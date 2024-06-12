@@ -1,12 +1,13 @@
-﻿@model CrudRepos.Domain.Entities.Users.User
+﻿@using CrudRepos.Application.Services.Users.Command;
+@model RequestRegisterUserDto;
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>ایجاد کاربر جدید</h1>
 
-<h4>User</h4>
+<h4>کاربر</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -38,26 +39,6 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InsertTime" class="control-label"></label>
-                <input asp-for="InsertTime" class="form-control" />
-                <span asp-validation-for="InsertTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateTime" class="control-label"></label>
-                <input asp-for="UpdateTime" class="form-control" />
-                <span asp-validation-for="UpdateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsRemoved" /> @Html.DisplayNameFor(model => model.IsRemoved)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="RemoveTime" class="control-label"></label>
-                <input asp-for="RemoveTime" class="form-control" />
-                <span asp-validation-for="RemoveTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -65,9 +46,12 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="List">بازگشت به لیسا</a>
 </div>
-
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="text-danger">@ViewBag.ErrorMessage</div>
+}
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

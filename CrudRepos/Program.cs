@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using CrudRepos.Data;
 using CrudRepos.Application.Services.Users.Query;
+using CrudRepos.Application.Vaidators;
+using CrudRepos.Application.Services.Users.Command;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +26,11 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddScoped<DatabaseContext>();
 
 //user
+builder.Services.AddValidatorsFromAssemblyContaining<RequestRegisterUserDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IGetUsersService, GetUsersService>();
+builder.Services.AddScoped<IRegisterUserService, AddNewUserService>();
+
 
 
 

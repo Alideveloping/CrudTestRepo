@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Users\Command\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\CrudRepos.Common\CrudRepos.Common.csproj" />
     <ProjectReference Include="..\CrudRepos.Persistance\CrudRepos.Persistance.csproj" />
   </ItemGroup>
 

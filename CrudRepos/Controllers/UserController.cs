@@ -11,6 +11,8 @@ using CrudRepos.Persistance.Context;
 using CrudRepos.Models.ViewModels.User;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using CrudRepos.Application.Services.Users.Query;
+using CrudRepos.Application.Services.Users.Command;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace CrudRepos.Controllers
 {
@@ -18,12 +20,15 @@ namespace CrudRepos.Controllers
     {
         private readonly DatabaseContext _db;
         private readonly IGetUsersService _getUsersService;
+        private readonly IRegisterUserService _registerUserService;
 
         public UserController(DatabaseContext db
-            ,IGetUsersService getUsersService)
+            , IGetUsersService getUsersService
+            , IRegisterUserService registerUserService)
         {
             _db = db;
             _getUsersService = getUsersService;
+            _registerUserService = registerUserService;
         }
 
         [HttpGet]
@@ -37,10 +42,31 @@ namespace CrudRepos.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(UserViewModel user)
         {
-            return View();
+            var request = new RequestRegisterUserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Age = user.Age,
+                NationalCode = user.NationalCode
+            };
+
+            var result = _registerUserService.Execute(request);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("List", "User");
+            }
+
+            else
+            {
+                ViewBag.ErrorMessage = result.Message;
+                return View();
+            }
         }
 
         [HttpGet]
@@ -52,6 +78,7 @@ namespace CrudRepos.Controllers
             }
 
             var user = await _db.Users.FindAsync(id);
+
             if (user == null)
             {
                 return NotFound();
