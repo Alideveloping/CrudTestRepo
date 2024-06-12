@@ -10,4 +10,12 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Users\Command\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrudRepos.Persistance\CrudRepos.Persistance.csproj" />
+  </ItemGroup>
+
 </Project>

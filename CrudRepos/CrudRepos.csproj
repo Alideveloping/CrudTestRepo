@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CrudRepos.Application\CrudRepos.Application.csproj" />
     <ProjectReference Include="..\CrudRepos.Persistance\CrudRepos.Persistance.csproj" />
   </ItemGroup>
 

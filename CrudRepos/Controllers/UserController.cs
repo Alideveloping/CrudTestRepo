@@ -10,22 +10,26 @@ using CrudRepos.Domain.Entities.Users;
 using CrudRepos.Persistance.Context;
 using CrudRepos.Models.ViewModels.User;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using CrudRepos.Application.Services.Users.Query;
 
 namespace CrudRepos.Controllers
 {
     public class UserController : Controller
     {
         private readonly DatabaseContext _db;
+        private readonly IGetUsersService _getUsersService;
 
-        public UserController(DatabaseContext db)
+        public UserController(DatabaseContext db
+            ,IGetUsersService getUsersService)
         {
             _db = db;
+            _getUsersService = getUsersService;
         }
 
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            return View(await _db.Users.ToListAsync());
+            return View(_getUsersService.Execute());
         }
 
         [HttpGet]

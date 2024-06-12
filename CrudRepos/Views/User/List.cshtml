@@ -1,5 +1,5 @@
-﻿@using CrudRepos.Models.ViewModels.User
-@model UserViewModel
+﻿@using CrudRepos.Application.Services.Users.Query;
+@model ResultGetUsersDto;
 
 @{
     ViewData["Title"] = "لیست کاربران";
@@ -32,7 +32,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Users) {
         <tr>
             <td>
                 @item.FirstName
@@ -44,7 +44,7 @@
                 @item.Age
             </td>
             <td>
-                @NationalCode
+                @item.NationalCode
             </td>
             <td>
                 @item.Email
