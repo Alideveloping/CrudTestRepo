@@ -30,9 +30,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<RequestRegisterUserDtoValid
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IGetUsersService, GetUsersService>();
 builder.Services.AddScoped<IRegisterUserService, AddNewUserService>();
-
-
-
+builder.Services.AddScoped<IRemoveUserService, RemoveUserService>();
+builder.Services.AddScoped<IEditUserService, EditUserService>();
 
 
 

@@ -21,14 +21,20 @@ namespace CrudRepos.Controllers
         private readonly DatabaseContext _db;
         private readonly IGetUsersService _getUsersService;
         private readonly IRegisterUserService _registerUserService;
+        private readonly IRemoveUserService _removeUserService;
+        private readonly IEditUserService _editUserService;
 
         public UserController(DatabaseContext db
             , IGetUsersService getUsersService
-            , IRegisterUserService registerUserService)
+            , IRegisterUserService registerUserService
+            , IRemoveUserService removeUserService
+            , IEditUserService editUserService)
         {
             _db = db;
             _getUsersService = getUsersService;
             _registerUserService = registerUserService;
+            _removeUserService = removeUserService;
+            _editUserService = editUserService;
         }
 
         [HttpGet]
@@ -72,35 +78,51 @@ namespace CrudRepos.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(long id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _db.Users.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
+            ViewBag.Id = id;
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(UserViewModel user)
         {
-            //todo
-            return View();
+            var request = new RequestEditUserDto
+            {
+                UserId=user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Age = user.Age,
+                NationalCode = user.NationalCode
+            };
+
+            var result = _editUserService.Execute(request);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("List", "User");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = result.Message;
+                return View();
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(long id)
         {
-            //todo
-            return View();
+            var result = _removeUserService.Execute(id);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("List", "User");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = result.Message;
+                return View();
+            }
         }
-
-
 
     }
 }
