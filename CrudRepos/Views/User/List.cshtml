@@ -1,0 +1,59 @@
+﻿@using CrudRepos.Models.ViewModels.User
+@model UserViewModel
+
+@{
+    ViewData["Title"] = "لیست کاربران";
+}
+
+<h1>لیست کاربران</h1>
+
+<p>
+    <a asp-action="Create">اضافه کردن کاربر جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                نام 
+            </th>
+            <th>
+                نام خانوادگی
+            </th>
+            <th>
+                سن
+            </th>
+            <th>
+                کد ملی
+            </th>
+            <th>
+                ایمیل
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.FirstName
+            </td>
+            <td>
+                @item.LastName
+            </td>
+            <td>
+                @item.Age
+            </td>
+            <td>
+                @NationalCode
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
