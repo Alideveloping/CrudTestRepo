@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "لیست کاربران";
+    Layout = "~/views/shared/_layout.cshtml";
 }
 
 <h1>لیست کاربران</h1>
@@ -60,6 +61,12 @@
                     <form method="post" action="@Url.Action("Delete", "User")">
                         <input type="hidden" name="id" value="@item.Id" />
                         <button type="submit">حذف</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="get" action="@Url.Action("Details", "User")">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit">اطلاعات شخصی</button>
                     </form>
                 </td>
             </td>

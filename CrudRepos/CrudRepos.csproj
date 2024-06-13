@@ -24,4 +24,8 @@
     <ProjectReference Include="..\CrudRepos.Persistance\CrudRepos.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

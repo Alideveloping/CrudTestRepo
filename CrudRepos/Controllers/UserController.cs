@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CrudRepos.Data;
 using CrudRepos.Domain.Entities.Users;
 using CrudRepos.Persistance.Context;
 using CrudRepos.Models.ViewModels.User;
@@ -23,18 +22,20 @@ namespace CrudRepos.Controllers
         private readonly IRegisterUserService _registerUserService;
         private readonly IRemoveUserService _removeUserService;
         private readonly IEditUserService _editUserService;
-
+        private readonly IGetUserByIdService _getUserByIdService;
         public UserController(DatabaseContext db
             , IGetUsersService getUsersService
             , IRegisterUserService registerUserService
             , IRemoveUserService removeUserService
-            , IEditUserService editUserService)
+            , IEditUserService editUserService
+            , IGetUserByIdService getUserByIdService)
         {
             _db = db;
             _getUsersService = getUsersService;
             _registerUserService = registerUserService;
             _removeUserService = removeUserService;
             _editUserService = editUserService;
+            _getUserByIdService = getUserByIdService;
         }
 
         [HttpGet]
@@ -75,11 +76,22 @@ namespace CrudRepos.Controllers
             }
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Edit(long id)
+        public async Task<IActionResult> Edit(int Id)
         {
-            ViewBag.Id = id;
-            return View();
+            var user = _getUserByIdService.Execute(Id);
+            var editUserDto = new RequestEditUserDto
+            {
+                UserId = user.User.Id,
+                FirstName = user.User.FirstName,
+                LastName = user.User.LastName,
+                Age = user.User.Age,
+                NationalCode = user.User.NationalCode,
+                Email = user.User.Email
+            };
+
+            return View(editUserDto);
         }
 
         [HttpPost]
@@ -87,7 +99,7 @@ namespace CrudRepos.Controllers
         {
             var request = new RequestEditUserDto
             {
-                UserId=user.UserId,
+                UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
@@ -109,7 +121,7 @@ namespace CrudRepos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = _removeUserService.Execute(id);
 
@@ -122,6 +134,22 @@ namespace CrudRepos.Controllers
                 ViewBag.ErrorMessage = result.Message;
                 return View();
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int Id)
+        {
+            var user = _getUserByIdService.Execute(Id);
+            var editUserDto = new RequestEditUserDto
+            {
+                UserId = user.User.Id,
+                FirstName = user.User.FirstName,
+                LastName = user.User.LastName,
+                Age = user.User.Age,
+                NationalCode = user.User.NationalCode,
+                Email = user.User.Email
+            };
+
+            return View(editUserDto);
         }
 
     }

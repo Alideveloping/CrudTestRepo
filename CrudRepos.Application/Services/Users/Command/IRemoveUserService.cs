@@ -10,7 +10,7 @@ namespace CrudRepos.Application.Services.Users.Command
 {
     public interface IRemoveUserService
     {
-        ResultDto Execute(long UserId);
+        ResultDto Execute(int UserId);
     }
     public class RemoveUserService : IRemoveUserService
     {
@@ -20,7 +20,7 @@ namespace CrudRepos.Application.Services.Users.Command
             _db = db;
         }
 
-        public ResultDto Execute(long UserId)
+        public ResultDto Execute(int UserId)
         {
             var user = _db.Users.Find(UserId);
             if (user == null)

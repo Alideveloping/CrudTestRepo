@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudRepos.Persistance.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240612192213_Add_User")]
+    [Migration("20240613072453_Add_User")]
     partial class Add_User
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace CrudRepos.Persistance.Migrations
 
             modelBuilder.Entity("CrudRepos.Domain.Entities.Users.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Age")
                         .HasColumnType("int");

@@ -14,7 +14,7 @@ namespace CrudRepos.Domain.Entities.Common
         public bool IsRemoved { get; set; } = false;
         public DateTime? RemoveTime { get; set; }
     }
-    public abstract class BaseEntity : BaseEntity<long>
+    public abstract class BaseEntity : BaseEntity<int>
     {
     }
 }
